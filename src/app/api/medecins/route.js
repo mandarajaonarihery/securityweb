@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '#/lib/prisma';
 
+export const runtime = 'nodejs'; // Forcer l'utilisation de Node.js
 
 
 // Récupérer tous les médecins
