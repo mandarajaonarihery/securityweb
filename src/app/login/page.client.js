@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Lottie from "lottie-react";
-import loginAnimation from "@/animations/login.json";
-import signupAnimation from "@/animations/signup.json";
+import dynamic from "next/dynamic";
+
+// Chargement dynamique pour éviter les erreurs côté serveur
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 
 const LoginPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -16,8 +18,21 @@ const LoginPage = () => {
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const [loginData, setLoginData] = useState(null);
+  const [signupData, setSignupData] = useState(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+
+  useEffect(() => {
+    fetch("/animations/login.json")
+      .then((res) => res.json())
+      .then(setLoginData);
+  
+    fetch("/animations/signup.json")
+      .then((res) => res.json())
+      .then(setSignupData);
+  }, []);
 
   const handleSubmit = () => {
     if (!email || !password || (isSignUp && !fullName)) {
@@ -75,7 +90,10 @@ const LoginPage = () => {
             maxHeight: "600px",
           }}
         >
-          <Lottie animationData={isSignUp ? signupAnimation : loginAnimation} loop />
+        {(isSignUp ? signupData : loginData) && (
+  <Lottie animationData={isSignUp ? signupData : loginData} loop />
+)}
+
         </Box>
         <Typography
           variant="h3"
