@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -15,37 +15,33 @@ const LoginPage = () => {
   const [password, setPassword] = useState(""); // Valeur statique pour le mot de passe
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
-  const [isClient, setIsClient] = useState(false); // État pour vérifier si c'est côté client
   const router = useRouter();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-  useEffect(() => {
-    setIsClient(true); // On définit l'état lorsque le composant est monté côté client
-  }, []);
 
   const handleSubmit = () => {
     if (!email || !password || (isSignUp && !fullName)) {
       setError("Veuillez remplir tous les champs.");
       return;
     }
-
+  
     // Blocage de la fonctionnalité d'inscription
     if (isSignUp) {
       setError("Inscription désactivée pour le moment.");
       return;
     }
-
+  
     // Vérification statique des identifiants
     if (email === "mandarajaonarihery@gmail.com" && password === "1234") {
       localStorage.setItem("userEmail", email);
       localStorage.setItem("userRole", "med");
-
+  
       router.push("/med");
     } else {
       setError("Identifiants incorrects.");
     }
   };
+  
 
   return (
     <Box
@@ -57,47 +53,45 @@ const LoginPage = () => {
       }}
     >
       {/* Animation section */}
-      {isClient && (
-        <motion.div
-          initial={{ x: 0 }}
-          animate={{ x: isSignUp ? "100%" : "0%" }}
-          transition={{ duration: 0.8 }}
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "linear-gradient(135deg, #6a11cb, #2575fc)",
-            position: "relative",
-            padding: "2rem",
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: isSignUp ? "100%" : "0%" }}
+        transition={{ duration: 0.8 }}
+        style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+          position: "relative",
+          padding: "2rem",
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "90%", md: "80%" },
+            height: { xs: "100%", sm: "90%", md: "80%" },
+            maxWidth: "600px",
+            maxHeight: "600px",
           }}
         >
-          <Box
-            sx={{
-              width: { xs: "100%", sm: "90%", md: "80%" },
-              height: { xs: "100%", sm: "90%", md: "80%" },
-              maxWidth: "600px",
-              maxHeight: "600px",
-            }}
-          >
-            <Lottie animationData={isSignUp ? signupAnimation : loginAnimation} loop />
-          </Box>
-          <Typography
-            variant="h3"
-            sx={{
-              zIndex: 1,
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "#fff",
-              padding: 2,
-              position: "absolute",
-              bottom: "20px",
-            }}
-          >
-            {isSignUp ? "Rejoignez-nous dès aujourd'hui !" : "Bon retour !"}
-          </Typography>
-        </motion.div>
-      )}
+          <Lottie animationData={isSignUp ? signupAnimation : loginAnimation} loop />
+        </Box>
+        <Typography
+          variant="h3"
+          sx={{
+            zIndex: 1,
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            padding: 2,
+            position: "absolute",
+            bottom: "20px",
+          }}
+        >
+          {isSignUp ? "Rejoignez-nous dès aujourd'hui !" : "Bon retour !"}
+        </Typography>
+      </motion.div>
 
       {/* Formulaire */}
       <motion.div
