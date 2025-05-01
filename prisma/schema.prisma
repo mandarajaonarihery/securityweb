@@ -10,7 +10,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url       = "postgresql://postgres:AonOJwwzKeWsquMIVmVzNWCWjxbdngqG@hopper.proxy.rlwy.net:37847/railway?sslmode=require"
+ 
 }
 model Medecin {
   numed          Int    @id @default(autoincrement())
