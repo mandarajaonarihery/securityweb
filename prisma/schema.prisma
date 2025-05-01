@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url       = "postgresql://postgres:AonOJwwzKeWsquMIVmVzNWCWjxbdngqG@hopper.proxy.rlwy.net:37847/railway?sslmode=require"
+  url       = env("DATABASE_URL")
  
 }
 model Medecin {
