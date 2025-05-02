@@ -5,10 +5,12 @@ import { TextField, Button, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Lottie from "lottie-react";
+
 import loginAnimation from "@/animations/login.json";
 import signupAnimation from "@/animations/signup.json";
+import dynamic from 'next/dynamic';  // Importation dynamique
 
+const LottieWithNoSSR = dynamic(() => import('lottie-react'), { ssr: false });
 const LoginPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState(""); // Valeur statique pour l'email
@@ -75,7 +77,7 @@ const LoginPage = () => {
             maxHeight: "600px",
           }}
         >
-          <Lottie animationData={isSignUp ? signupAnimation : loginAnimation} loop />
+         <LottieWithNoSSR animationData={isSignUp ? signupAnimation : loginAnimation} loop />
         </Box>
         <Typography
           variant="h3"
